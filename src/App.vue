@@ -26,13 +26,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { ref, Ref, onMounted } from 'vue';
 import Quill from 'quill';
 import TurndownService from 'turndown';
 
-const quillEditor = ref(null);
+const quillEditor: Ref<HTMLElement | null> = ref(null);
 const markdown = ref('');
-let quill = null;
+let quill: Quill | null = null;
 let isNewLineAsParagraph = ref(false);
 let isIgnoreBoldInHeader = ref(true);
 
@@ -48,12 +48,11 @@ const copyToClipboard = () => {
 };
 
 const richtextToMarkdown = () => {
-  const text_html = quill.root.innerHTML;
+  const text_html = quill!.root.innerHTML;
   // https://github.com/mixmark-io/turndown?tab=readme-ov-file
   const turndownService = new TurndownService({
     headingStyle: 'atx',
     codeBlockStyle: 'fenced',
-    preformattedCode: 'true',
     hr: "---",
     bulletListMarker: "-",
   });
@@ -69,6 +68,9 @@ const richtextToMarkdown = () => {
 }
 
 onMounted(() => {
+  if (!quillEditor.value) {
+    return;
+  }
   quill = new Quill(quillEditor.value, {
     theme: 'snow',
   });

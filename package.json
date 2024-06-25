@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite build",
+    "build": "vue-tsc -b && vite build --base=/richtext_to_markdown/",
     "preview": "vite preview"
   },
   "dependencies": {
